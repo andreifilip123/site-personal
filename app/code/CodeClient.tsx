@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { projects } from "@/app/data";
 import type { Project } from "@/app/types";
+import Tooltip from "@/components/Tooltip";
 
-export default function CodeClient() {
+interface CodeClientProps {
+  devMode?: boolean;
+}
+
+export default function CodeClient({ devMode = false }: CodeClientProps) {
   const [selectedProject, setSelectedProject] = useState<Project>(projects[0]);
 
   return (
@@ -13,25 +18,31 @@ export default function CodeClient() {
       {/* Floating projects row */}
       <div className="mb-4 flex flex-wrap justify-center gap-8">
         {projects.map((project) => (
-          <button
+          <Tooltip
             key={project.name}
-            type="button"
-            className="h-[150px] w-[200px] cursor-pointer"
-            onClick={() => setSelectedProject(project)}
+            content="These spinning laptops were modeled in Blender and exported as videos. They showcase the 3D work and attention to detail in the portfolio."
+            position="top-right"
+            showTooltip={devMode}
           >
-            <p className="p-2 text-center">{project.name}</p>
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              onMouseEnter={(e) => e.currentTarget.pause()}
-              onMouseLeave={(e) => e.currentTarget.play()}
+            <button
+              type="button"
+              className="h-[150px] w-[200px] cursor-pointer"
+              onClick={() => setSelectedProject(project)}
             >
-              <source src={project.projectImage} type="video/webm" />
-              Your browser does not support the video tag.
-            </video>
-          </button>
+              <p className="p-2 text-center">{project.name}</p>
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                onMouseEnter={(e) => e.currentTarget.pause()}
+                onMouseLeave={(e) => e.currentTarget.play()}
+              >
+                <source src={project.projectImage} type="video/webm" />
+                Your browser does not support the video tag.
+              </video>
+            </button>
+          </Tooltip>
         ))}
       </div>
 

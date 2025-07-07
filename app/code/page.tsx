@@ -3,11 +3,15 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { unstable_ViewTransition as ViewTransition } from "react";
+import { useState } from "react";
 import ScrollArrow from "@/components/ScrollArrow";
+import DevModeToggle from "@/components/DevModeToggle";
 
 const CodeClient = dynamic(() => import("./CodeClient"), { ssr: false });
 
 export default function CodePage() {
+  const [devMode, setDevMode] = useState(false);
+
   return (
     <>
       <div className="min-h-screen bg-[#64A2BA]">
@@ -96,7 +100,8 @@ export default function CodePage() {
         </div>
         <ScrollArrow />
       </div>
-      <CodeClient />
+      <CodeClient devMode={devMode} />
+      <DevModeToggle onToggle={setDevMode} />
     </>
   );
 }
