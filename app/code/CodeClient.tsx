@@ -1,14 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { projects } from "@/app/data";
 import type { Project } from "@/app/types";
 import Tooltip from "@/components/Tooltip";
 
-interface CodeClientProps {
-  devMode?: boolean;
-}
-
-export default function CodeClient({ devMode = false }: CodeClientProps) {
+export default function CodeClient() {
   const [selectedProject, setSelectedProject] = useState<Project>(projects[0]);
+  const [devMode, setDevMode] = useState(false);
+
+  useEffect(() => {
+    const updateDevMode = () => {
+      if (typeof window !== "undefined") {
+        const savedDevMode = localStorage.getItem("dev-mode");
+        setDevMode(savedDevMode === "true");
+      }
+    };
+
+    // Initial load
+    updateDevMode();
+
+    // Listen for storage changes
+    window.addEventListener("storage", updateDevMode);
+    
+    // Listen for custom dev mode change event
+    window.addEventListener("devModeChanged", updateDevMode);
+
+    return () => {
+      window.removeEventListener("storage", updateDevMode);
+      window.removeEventListener("devModeChanged", updateDevMode);
+    };
+  }, []);
 
   return (
     <div
@@ -18,31 +38,32 @@ export default function CodeClient({ devMode = false }: CodeClientProps) {
       {/* Floating projects row */}
       <div className="mb-4 flex flex-wrap justify-center gap-8">
         {projects.map((project) => (
-          <Tooltip
-            key={project.name}
-            content="These spinning laptops were modeled in Blender and exported as videos. They showcase the 3D work and attention to detail in the portfolio."
-            position="top-right"
-            showTooltip={devMode}
-          >
-            <button
-              type="button"
-              className="h-[150px] w-[200px] cursor-pointer"
-              onClick={() => setSelectedProject(project)}
+          <div key={project.name}>
+            <Tooltip
+              content="These spinning laptops were modeled in Blender and exported as videos. They showcase the 3D work and attention to detail in the portfolio."
+              position="top-right"
+              showTooltip={devMode}
             >
-              <p className="p-2 text-center">{project.name}</p>
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                onMouseEnter={(e) => e.currentTarget.pause()}
-                onMouseLeave={(e) => e.currentTarget.play()}
+              <button
+                type="button"
+                className="h-[150px] w-[200px] cursor-pointer"
+                onClick={() => setSelectedProject(project)}
               >
-                <source src={project.projectImage} type="video/webm" />
-                Your browser does not support the video tag.
-              </video>
-            </button>
-          </Tooltip>
+                <p className="p-2 text-center">{project.name}</p>
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  onMouseEnter={(e) => e.currentTarget.pause()}
+                  onMouseLeave={(e) => e.currentTarget.play()}
+                >
+                  <source src={project.projectImage} type="video/webm" />
+                  Your browser does not support the video tag.
+                </video>
+              </button>
+            </Tooltip>
+          </div>
         ))}
       </div>
 

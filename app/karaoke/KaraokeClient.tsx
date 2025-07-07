@@ -1,20 +1,39 @@
 "use client";
 import Image from "next/image";
 import Script from "next/script";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { songs } from "@/app/data";
 import type { Song } from "@/app/types";
 import Pickup from "@/components/pickup";
 import Tooltip from "@/components/Tooltip";
 import DevModeToggle from "@/components/DevModeToggle";
 
-interface KaraokeClientProps {
-  devMode?: boolean;
-}
-
-export default function KaraokeClient({ devMode = false }: KaraokeClientProps) {
-  const [devModeState, setDevModeState] = useState(devMode);
+export default function KaraokeClient() {
   const [activeSong, setActiveSong] = useState<Song>(songs[0]);
+  const [devMode, setDevMode] = useState(false);
+
+  useEffect(() => {
+    const updateDevMode = () => {
+      if (typeof window !== "undefined") {
+        const savedDevMode = localStorage.getItem("dev-mode");
+        setDevMode(savedDevMode === "true");
+      }
+    };
+
+    // Initial load
+    updateDevMode();
+
+    // Listen for storage changes
+    window.addEventListener("storage", updateDevMode);
+    
+    // Listen for custom dev mode change event
+    window.addEventListener("devModeChanged", updateDevMode);
+
+    return () => {
+      window.removeEventListener("storage", updateDevMode);
+      window.removeEventListener("devModeChanged", updateDevMode);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#E09E8E]">
@@ -46,14 +65,18 @@ export default function KaraokeClient({ devMode = false }: KaraokeClientProps) {
           <Tooltip
             content="This record player is built entirely with 3D CSS! It features a working lid, animated needle, spinning record, and functional play/pause/stop controls that integrate with the YouTube API."
             position="top-right"
-            showTooltip={devModeState}
+            showTooltip={devMode}
           >
             <Pickup song={activeSong} />
           </Tooltip>
         </div>
       </div>
       <Script src="https://www.youtube.com/iframe_api" />
-      <DevModeToggle onToggle={setDevModeState} />
+      <DevModeToggle onToggle={(newDevMode) => {
+        setDevMode(newDevMode);
+        // Dispatch custom event to notify other components
+        window.dispatchEvent(new Event("devModeChanged"));
+      }} />
     </div>
   );
 }

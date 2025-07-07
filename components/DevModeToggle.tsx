@@ -25,6 +25,8 @@ export default function DevModeToggle({ onToggle }: DevModeToggleProps) {
     onToggle(newDevMode);
     if (typeof window !== "undefined") {
       localStorage.setItem("dev-mode", newDevMode.toString());
+      // Dispatch custom event to notify other components
+      window.dispatchEvent(new Event("devModeChanged"));
     }
   };
 
