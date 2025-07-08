@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function useDevMode() {
   const [devMode, setDevMode] = useState(false);

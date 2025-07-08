@@ -1,39 +1,17 @@
 "use client";
 import Image from "next/image";
 import Script from "next/script";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { songs } from "@/app/data";
 import type { Song } from "@/app/types";
+import DevModeToggle from "@/components/DevModeToggle";
 import Pickup from "@/components/pickup";
 import Tooltip from "@/components/Tooltip";
-import DevModeToggle from "@/components/DevModeToggle";
+import useDevMode from "@/hooks/useDevMode";
 
 export default function KaraokeClient() {
   const [activeSong, setActiveSong] = useState<Song>(songs[0]);
-  const [devMode, setDevMode] = useState(false);
-
-  useEffect(() => {
-    const updateDevMode = () => {
-      if (typeof window !== "undefined") {
-        const savedDevMode = localStorage.getItem("dev-mode");
-        setDevMode(savedDevMode === "true");
-      }
-    };
-
-    // Initial load
-    updateDevMode();
-
-    // Listen for storage changes
-    window.addEventListener("storage", updateDevMode);
-    
-    // Listen for custom dev mode change event
-    window.addEventListener("devModeChanged", updateDevMode);
-
-    return () => {
-      window.removeEventListener("storage", updateDevMode);
-      window.removeEventListener("devModeChanged", updateDevMode);
-    };
-  }, []);
+  const { devMode } = useDevMode();
 
   return (
     <div className="min-h-screen bg-[#E09E8E]">
@@ -72,11 +50,7 @@ export default function KaraokeClient() {
         </div>
       </div>
       <Script src="https://www.youtube.com/iframe_api" />
-      <DevModeToggle onToggle={(newDevMode) => {
-        setDevMode(newDevMode);
-        // Dispatch custom event to notify other components
-        window.dispatchEvent(new Event("devModeChanged"));
-      }} />
+      <DevModeToggle />
     </div>
   );
 }

@@ -1,34 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { projects } from "@/app/data";
 import type { Project } from "@/app/types";
+import DevModeToggle from "@/components/DevModeToggle";
 import Tooltip from "@/components/Tooltip";
+import useDevMode from "@/hooks/useDevMode";
 
 export default function CodeClient() {
   const [selectedProject, setSelectedProject] = useState<Project>(projects[0]);
-  const [devMode, setDevMode] = useState(false);
-
-  useEffect(() => {
-    const updateDevMode = () => {
-      if (typeof window !== "undefined") {
-        const savedDevMode = localStorage.getItem("dev-mode");
-        setDevMode(savedDevMode === "true");
-      }
-    };
-
-    // Initial load
-    updateDevMode();
-
-    // Listen for storage changes
-    window.addEventListener("storage", updateDevMode);
-    
-    // Listen for custom dev mode change event
-    window.addEventListener("devModeChanged", updateDevMode);
-
-    return () => {
-      window.removeEventListener("storage", updateDevMode);
-      window.removeEventListener("devModeChanged", updateDevMode);
-    };
-  }, []);
+  const { devMode } = useDevMode();
 
   return (
     <div
@@ -98,6 +77,7 @@ export default function CodeClient() {
           </div>
         </div>
       </div>
+      <DevModeToggle />
     </div>
   );
 }
