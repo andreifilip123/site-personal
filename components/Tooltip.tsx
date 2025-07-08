@@ -18,10 +18,6 @@ export default function Tooltip({
 }: TooltipProps) {
   const [isHovered, setIsHovered] = useState(false);
 
-  if (!showTooltip) {
-    return <>{children}</>;
-  }
-
   const positionClasses = {
     "top-right": "top-2 right-2",
     "top-left": "top-2 left-2",
@@ -41,7 +37,11 @@ export default function Tooltip({
       {children}
       <div
         role="tooltip"
-        className={cn("absolute z-50 cursor-help", positionClasses[position])}
+        className={cn(
+          "absolute z-50 cursor-help",
+          positionClasses[position],
+          showTooltip ? "block" : "hidden",
+        )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
