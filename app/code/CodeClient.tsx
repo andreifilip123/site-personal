@@ -20,7 +20,6 @@ export default function CodeClient() {
           <div key={project.name}>
             <Tooltip
               content="These spinning laptops were modeled in Blender and exported as videos. They showcase the 3D work and attention to detail in the portfolio."
-              position="top-right"
               showTooltip={devMode}
             >
               <button

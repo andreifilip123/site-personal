@@ -42,7 +42,6 @@ export default function KaraokeClient() {
         <div className="relative mt-10 flex w-1/2 items-center justify-center lg:mt-0">
           <Tooltip
             content="This record player is built entirely with 3D CSS! It features a working lid, animated needle, spinning record, and functional play/pause/stop controls that integrate with the YouTube API."
-            position="top-right"
             showTooltip={devMode}
           >
             <Pickup song={activeSong} />

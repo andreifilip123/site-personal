@@ -48,13 +48,10 @@ export default function Tooltip({
         {/* Tooltip trigger circle */}
         <div
           className={cn(
-            "h-6 w-6 rounded-full border border-blue-300/30 bg-blue-500/60 backdrop-blur-sm transition-all duration-200",
-            "flex items-center justify-center font-bold text-white text-xs",
-            isHovered && "scale-110 bg-blue-500/80",
+            "h-4 w-4 rounded-full bg-gray-200/60 backdrop-blur-sm transition-all duration-200",
+            isHovered && "scale-105 bg-gray-200/80",
           )}
-        >
-          ?
-        </div>
+        />
 
         {/* Tooltip content */}
         {isHovered && (
