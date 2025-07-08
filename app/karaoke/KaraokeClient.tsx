@@ -4,10 +4,14 @@ import Script from "next/script";
 import { useState } from "react";
 import { songs } from "@/app/data";
 import type { Song } from "@/app/types";
+import DevModeToggle from "@/components/DevModeToggle";
 import Pickup from "@/components/pickup";
+import Tooltip from "@/components/Tooltip";
+import useDevMode from "@/hooks/useDevMode";
 
 export default function KaraokeClient() {
   const [activeSong, setActiveSong] = useState<Song>(songs[0]);
+  const { devMode } = useDevMode();
 
   return (
     <div className="min-h-screen bg-[#E09E8E]">
@@ -36,10 +40,18 @@ export default function KaraokeClient() {
           <p className="text-lg">{activeSong.artist}</p>
         </div>
         <div className="relative mt-10 flex w-1/2 items-center justify-center lg:mt-0">
-          <Pickup song={activeSong} />
+          <Tooltip
+            content="This record player is built entirely with 3D CSS! It features a working lid, animated needle, spinning record, and functional play/pause/stop controls that integrate with the YouTube API."
+            showTooltip={devMode}
+            customPosition="top-1/3 -right-8"
+            tooltipCustomPosition="bottom-full right-full"
+          >
+            <Pickup song={activeSong} />
+          </Tooltip>
         </div>
       </div>
       <Script src="https://www.youtube.com/iframe_api" />
+      <DevModeToggle />
     </div>
   );
 }

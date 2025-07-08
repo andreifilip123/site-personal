@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { projects } from "@/app/data";
 import type { Project } from "@/app/types";
+import DevModeToggle from "@/components/DevModeToggle";
+import Tooltip from "@/components/Tooltip";
+import useDevMode from "@/hooks/useDevMode";
 
 export default function CodeClient() {
   const [selectedProject, setSelectedProject] = useState<Project>(projects[0]);
+  const { devMode } = useDevMode();
 
   return (
     <div
@@ -13,25 +17,31 @@ export default function CodeClient() {
       {/* Floating projects row */}
       <div className="mb-4 flex flex-wrap justify-center gap-8">
         {projects.map((project) => (
-          <button
-            key={project.name}
-            type="button"
-            className="h-[150px] w-[200px] cursor-pointer"
-            onClick={() => setSelectedProject(project)}
-          >
-            <p className="p-2 text-center">{project.name}</p>
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              onMouseEnter={(e) => e.currentTarget.pause()}
-              onMouseLeave={(e) => e.currentTarget.play()}
+          <div key={project.name}>
+            <Tooltip
+              content="These spinning laptops were modeled in Blender and exported as videos. They showcase the 3D work and attention to detail in the portfolio."
+              showTooltip={devMode}
             >
-              <source src={project.projectImage} type="video/webm" />
-              Your browser does not support the video tag.
-            </video>
-          </button>
+              <button
+                type="button"
+                className="h-[150px] w-[200px] cursor-pointer"
+                onClick={() => setSelectedProject(project)}
+              >
+                <p className="p-2 text-center">{project.name}</p>
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  onMouseEnter={(e) => e.currentTarget.pause()}
+                  onMouseLeave={(e) => e.currentTarget.play()}
+                >
+                  <source src={project.projectImage} type="video/webm" />
+                  Your browser does not support the video tag.
+                </video>
+              </button>
+            </Tooltip>
+          </div>
         ))}
       </div>
 
@@ -66,6 +76,7 @@ export default function CodeClient() {
           </div>
         </div>
       </div>
+      <DevModeToggle />
     </div>
   );
 }
