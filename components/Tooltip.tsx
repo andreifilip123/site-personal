@@ -6,14 +6,18 @@ import { cn } from "@/lib/utils";
 interface TooltipProps {
   children: React.ReactNode;
   content: string;
+  customPosition?: string;
   position?: "top-right" | "top-left" | "bottom-right" | "bottom-left";
   showTooltip?: boolean;
+  tooltipCustomPosition?: string;
 }
 
 export default function Tooltip({
   children,
   content,
+  customPosition = "",
   position = "top-right",
+  tooltipCustomPosition = "",
   showTooltip = true,
 }: TooltipProps) {
   const [isHovered, setIsHovered] = useState(false);
@@ -39,7 +43,7 @@ export default function Tooltip({
         role="tooltip"
         className={cn(
           "absolute z-50 cursor-help",
-          positionClasses[position],
+          customPosition || positionClasses[position],
           showTooltip ? "block" : "hidden",
         )}
         onMouseEnter={() => setIsHovered(true)}
@@ -59,7 +63,7 @@ export default function Tooltip({
             className={cn(
               "absolute z-50 w-64 rounded-lg border border-gray-700/50 bg-gray-900/95 p-3 text-sm text-white shadow-lg backdrop-blur-sm",
               "fade-in-0 zoom-in-95 animate-in duration-200",
-              tooltipPositionClasses[position],
+              tooltipCustomPosition || tooltipPositionClasses[position],
             )}
           >
             <div className="relative">
