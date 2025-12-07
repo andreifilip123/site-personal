@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { unstable_ViewTransition as ViewTransition } from "react";
+import { ViewTransition } from "react";
 import ScrollArrow from "@/components/ScrollArrow";
 
 const CodeClient = dynamic(() => import("./CodeClient"), { ssr: false });

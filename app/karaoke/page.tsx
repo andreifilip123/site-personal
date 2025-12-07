@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { unstable_ViewTransition as ViewTransition } from "react";
+import { ViewTransition } from "react";
 import ScrollArrow from "@/components/ScrollArrow";
 import KaraokeClient from "./KaraokeClient";
 

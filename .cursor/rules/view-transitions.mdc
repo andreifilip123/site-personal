@@ -9,7 +9,7 @@ The application uses the experimental View Transitions API from Next.js to creat
 
 ## Implementation Details
 
-- View transitions are implemented using the `unstable_ViewTransition` component from Next.js
+- View transitions are implemented using the `ViewTransition` component from Next.js
 - Each section has multiple named transitions:
   - Page transition (e.g., `code-page`)
   - Photo transition (e.g., `code-photo`)
