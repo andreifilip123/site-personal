@@ -158,10 +158,16 @@ export default function Pickup({ song }: { song: Song }) {
               className="rounded-full bg-[repeating-radial-gradient(#000_0px,#222_5px)] object-contain p-10 lg:mx-0"
             />
           </div>
-          <button
+          <div
             className={cn("box lid", lidOpen ? "open" : undefined)}
             onClick={() => setLidOpen((prev) => !prev)}
-            type="button"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                setLidOpen((prev) => !prev);
+              }
+            }}
           >
             <div className="side top" />
             <div className="side left" />
@@ -180,7 +186,7 @@ export default function Pickup({ song }: { song: Song }) {
               </div>
             </div>
             <div className="side back" />
-          </button>
+          </div>
           <div
             className={cn(
               "needle",
