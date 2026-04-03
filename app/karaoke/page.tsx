@@ -9,6 +9,7 @@ export default function KaraokePage() {
       <div className="min-h-screen bg-[#E09E8E]">
         <Link
           href="/"
+          transitionTypes={["nav-back"]}
           className="absolute top-8 left-8 z-10 flex items-center gap-2 text-white hover:text-white/80"
         >
           ← Back
@@ -16,7 +17,11 @@ export default function KaraokePage() {
         <div className="flex flex-col lg:flex-row">
           <div className="order-2 flex-1 lg:order-1">
             <div className="flex h-full flex-col justify-center p-12 backdrop-blur-sm">
-              <ViewTransition name="karaoke-title">
+              <ViewTransition
+                name="karaoke-title"
+                share="text-morph"
+                default="none"
+              >
                 <h1 className={`z-10 mb-6 font-bold text-4xl text-white`}>
                   Karaoke
                 </h1>
@@ -33,7 +38,7 @@ export default function KaraokePage() {
           </div>
 
           <div className="relative order-1 min-h-screen flex-1 lg:order-2">
-            <ViewTransition name="karaoke-photo">
+            <ViewTransition name="karaoke-photo" share="morph" default="none">
               <div
                 className={`absolute inset-0 bg-[#E09E8E] bg-[url(/karaoke.png)] bg-contain bg-position-[center_top_1rem] bg-no-repeat lg:bg-contain`}
               />
