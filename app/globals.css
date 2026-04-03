@@ -79,8 +79,16 @@
   ::view-transition-old(*),
   ::view-transition-new(*),
   ::view-transition-group(*) {
-    animation-duration: 0s;
-    animation-delay: 0s;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+
+  /* Disable custom animations */
+  .ball,
+  .recordSupport.spinning,
+  .record.spinning,
+  .animate-bounce {
+    animation: none !important;
   }
 }
 
