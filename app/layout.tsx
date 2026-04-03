@@ -17,9 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`antialiased`}>
-        <DevModeProviderWrapper>
-          {children}
-        </DevModeProviderWrapper>
+        <DevModeProviderWrapper>{children}</DevModeProviderWrapper>
         <Analytics />
         <SpeedInsights />
       </body>
