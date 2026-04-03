@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
 import type { Song } from "@/app/types";
 import useYoutube from "@/hooks/useYoutube";
 import { cn, waitSeconds } from "@/lib/utils";
 import "./style.scss";
 
 export default function Pickup({ song }: { song: Song }) {
+  const sceneId = useId();
   const [lidOpen, setLidOpen] = useState(false);
   const [needleRotated, setNeedleRotated] = useState(false);
   const [needleLifted, setNeedleLifted] = useState(false);
@@ -98,7 +99,7 @@ export default function Pickup({ song }: { song: Song }) {
           </button>
         </div>
       )}
-      <div className="scene" id="pickup">
+      <div className="scene" id={sceneId}>
         <div className="box base">
           <div className="side top" />
           <div className="side bottom" />
