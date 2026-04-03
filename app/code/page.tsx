@@ -13,13 +13,14 @@ export default function CodePage() {
       <div className="min-h-screen bg-[#64A2BA]">
         <Link
           href="/"
+          transitionTypes={["nav-back"]}
           className="absolute top-8 left-8 z-10 flex items-center gap-2 text-white hover:text-white/80"
         >
           ← Back
         </Link>
         <div className="flex flex-col lg:flex-row">
           <div className="relative order-2 min-h-screen flex-1 lg:order-1">
-            <ViewTransition name="code-photo">
+            <ViewTransition name="code-photo" share="morph" default="none">
               <div
                 className={`absolute inset-0 bg-[#64A2BA] bg-[url(/code.png)] bg-contain bg-position-[center_top_1rem] bg-no-repeat lg:bg-contain`}
               />
@@ -28,7 +29,11 @@ export default function CodePage() {
 
           <div className="order-2 flex-2 lg:order-1">
             <div className="flex h-full flex-col justify-center p-12 backdrop-blur-sm">
-              <ViewTransition name="code-title">
+              <ViewTransition
+                name="code-title"
+                share="text-morph"
+                default="none"
+              >
                 <h1 className="mb-6 font-bold text-4xl text-white">Code</h1>
               </ViewTransition>
               <div className="open-right space-y-4 text-lg text-white/90">
